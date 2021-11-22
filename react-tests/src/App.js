@@ -1,18 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
-let mycounter = 0;
 
-function counterUp(e) {
-  mycounter++;
-  console.log(mycounter);
-}
 
 function App() {
+  const [count, setCount] = useState(0);
   return (
     <div className="App">
-      {mycounter}
-      <button onClick={counterUp}>counter</button>
+      {count}
+      <button onClick={() => setCount(count + 1)}>counter</button>
     </div>
   );
 }
