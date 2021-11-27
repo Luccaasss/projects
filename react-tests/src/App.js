@@ -8,7 +8,7 @@ function App() {
   const [count, setCount] = useState(0);
   return (
     <div className="App">
-      {count}
+      <p>{count}</p>
       <button onClick={() => setCount(count + 1)}>counter</button>
     </div>
   );
