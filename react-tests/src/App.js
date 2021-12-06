@@ -1,16 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-import { useState } from 'react';
-
-
+import StateLift from "./components/StateLift";
+import {useState} from 'react'
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [name, setName] = useState('');
+
   return (
-    <div className="App">
-      <p>{count}</p>
-      <button onClick={() => setCount(count + 1)}>counter</button>
-    </div>
+    <>
+      <h1>Rendering list</h1>
+      <StateLift setName={setName}/>
+      <p>{name}</p>
+    </>
+
   );
 }
 
