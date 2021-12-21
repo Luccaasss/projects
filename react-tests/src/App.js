@@ -1,17 +1,21 @@
-import StateLift from "./components/StateLift";
-import {useState} from 'react'
+import React, {useState} from 'react'
+import Counter from './Counter'
+export const ThemeContext = React.createContext()
 
 function App() {
-  const [name, setName] = useState('');
+  const [theme, setTheme] = useState('red')
 
-  return (
-    <>
-      <h1>Rendering list</h1>
-      <StateLift setName={setName}/>
-      <p>{name}</p>
-    </>
 
-  );
+  return(
+    <ThemeContext.Provider value={{backgroundColor: theme}}>
+      <Counter />
+      <button onClick={() => setTheme(prevTheme => 
+       { return prevTheme === 'red' ? 'blue' : 'red'})}>
+         The theme is {theme}
+      </button>
+    </ThemeContext.Provider>
+  )
+
 }
 
 export default App;
