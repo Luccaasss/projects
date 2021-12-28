@@ -1,0 +1,16 @@
+@import 'font.css';
+@import 'recipe-list.css';
+@import 'buttons.css';
+
+*, *::before, *::after {
+    font-family: 'Roboto';
+}
+
+html {
+    font-size: 23px;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
