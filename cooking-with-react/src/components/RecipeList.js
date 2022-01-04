@@ -2,11 +2,11 @@ import React, {useContext} from 'react'
 import Recipe from './Recipe'
 import { RecipeContext } from './App';
 
-export default function RecipeList({ recipes }) {
+export default function RecipeList({ recipes, fullScren }) {
     const { handleRecipeAdd } = useContext(RecipeContext);
 
     return (
-        <div className='recipe-list'>
+        <div className='recipe-list' style={{width: fullScren ? '100%' : '50%'}}>
             <div>
                 {recipes.map(recipe => {
                 return (

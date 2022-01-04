@@ -8,8 +8,12 @@ export const RecipeContext = React.createContext()
 const LOCAL_STORAGE_KEY = 'cookinWithReact.recipes'
 
 function App() {
+  const [selectedRecipeId, setSelectedRecipeId] = useState();
   const [recipes, setRecipes] = useState(sampleRecipes);
-  
+  const selectedRecipe = recipes.find(recipe => recipe.id === selectedRecipeId)
+  const [fullScren, setFullScren] = useState(true);
+
+
   useEffect(() => {
     const recipeJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (recipeJSON != null) setRecipes(JSON.parse(recipeJSON));
@@ -20,39 +24,60 @@ function App() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(recipes))
   }, [recipes]) 
 
+  useEffect(() => {
+    if (selectedRecipeId === undefined) setFullScren(true)
+    else setFullScren(false)
+  }, [selectedRecipeId])
+
   const recipeContextValue = {
     handleRecipeAdd,
     handleRecipeDelete,
+    handleRecipeSelect,
+    handleRecipeChange
   }
 
+  function handleRecipeSelect(id) {
+    setSelectedRecipeId(id)
+  }
   
   function handleRecipeAdd() {
     const newRecipe = {
       id: uuidv4(),
-      name: 'New',
+      name: '',
       servings: 1,
-      cookTime: '1:00',
-      instructions: 'Instr.',
+      cookTime: '',
+      instructions: '',
       ingredients: [
         {
           id: uuidv4(),
-          name: 'Name',
-          amout: '1 Tbs',
+          name: '',
+          amout: '',
         }
       ]
     }
   
     setRecipes([...recipes, newRecipe]);
+    setSelectedRecipeId(newRecipe.id)
+  }
+
+  function handleRecipeChange(id, recipe) {
+    const newRecipes = [...recipes];
+    const index = newRecipes.findIndex(r => r.id === id)
+    newRecipes[index] = recipe;
+    setRecipes(newRecipes)
   }
 
   function handleRecipeDelete(id) {
+    if (selectedRecipeId != null && selectedRecipeId === id) {
+      setSelectedRecipeId(undefined)
+    }
     setRecipes(recipes.filter(recipe => recipe.id !== id))
   }
 
   return (
     <RecipeContext.Provider value={recipeContextValue}>
-      <RecipeList recipes={recipes}/>
-      <RecipeEdit/>
+      <RecipeList recipes={recipes} fullScren={fullScren}/>
+      {selectedRecipeId && <RecipeEdit recipe={selectedRecipe}/>}
     </RecipeContext.Provider>
 
   )
@@ -84,7 +109,7 @@ const sampleRecipes = [
     name: 'Plain Pork',
     servings: 5,
     cookTime: '0,45',
-    instructions: '1. Put paprika on pork \n 2. Put pork in oven \n 3. Eat pork',
+    instructions: '1. Put paprika on pork\n2. Put pork in oven\n3. Eat pork',
     ingredients: [
       {
         id: 1,
